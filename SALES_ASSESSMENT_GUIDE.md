@@ -397,6 +397,67 @@ Kiểm tra API bằng trình duyệt hoặc Postman:
 
 Nếu dùng Swagger, truy cập: `https://localhost:5001/swagger`
 
+### 7.1 Thêm JWT authentication (tuỳ chọn nhưng rất tốt)
+Nếu muốn bảo vệ API bằng JWT, có thể thêm các bước sau:
+
+1. Cài package `Microsoft.AspNetCore.Authentication.JwtBearer`.
+2. Trong `appsettings.json`, thêm section:
+
+```json
+"Jwt": {
+  "Key": "super-secret-key-1234567890-abcdefghijklmnopqrstuvwxyz"
+}
+```
+
+3. Trong `Program.cs`, cấu hình authentication:
+
+```csharp
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "super-secret-key-1234567890-abcdefghijklmnopqrstuvwxyz";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddAuthorization();
+```
+
+4. Trong controller cần bảo vệ, thêm attribute `[Authorize]`.
+5. Tạo endpoint login để trả JWT token, ví dụ:
+
+```csharp
+[HttpPost("login")]
+public IActionResult Login(LoginRequest request)
+{
+    if (request.Username == "admin" && request.Password == "password123")
+    {
+        // tạo token ở đây
+        return Ok(new { token = "jwt_token_here" });
+    }
+
+    return Unauthorized();
+}
+```
+
+6. Khi gọi API cần auth, gửi header:
+
+```http
+Authorization: Bearer <token>
+```
+
+> Với mục đích test/local, có thể giữ key như trên. Với production, nên dùng key ngẫu nhiên dài hơn và không hardcode trực tiếp trong source.
+
 ---
 
 ## 8. Tạo frontend React

@@ -151,3 +151,5 @@ C:\DEHA_SOFT\SalesAssessment\SalesAssessment.Api.Tests\obj\Debug\net10.0\refint\
 C:\DEHA_SOFT\SalesAssessment\SalesAssessment.Api.Tests\obj\Debug\net10.0\SalesAssessment.Api.Tests.pdb
 C:\DEHA_SOFT\SalesAssessment\SalesAssessment.Api.Tests\obj\Debug\net10.0\SalesAssessment.Api.Tests.genruntimeconfig.cache
 C:\DEHA_SOFT\SalesAssessment\SalesAssessment.Api.Tests\obj\Debug\net10.0\ref\SalesAssessment.Api.Tests.dll
+C:\DEHA_SOFT\SalesAssessment\SalesAssessment.Api.Tests\obj\Debug\net10.0\SalesAssessment.Api.Tests.sourcelink.json
+C:\DEHA_SOFT\SalesAssessment\SalesAssessment.Api.Tests\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

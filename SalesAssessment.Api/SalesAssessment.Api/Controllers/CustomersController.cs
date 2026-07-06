@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SalesAssessment.Api.Models;
 using SalesAssessment.Api.Services;
@@ -5,6 +6,7 @@ using SalesAssessment.Api.Services;
 namespace SalesAssessment.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
