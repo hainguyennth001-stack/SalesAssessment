@@ -11,5 +11,28 @@ services:
     volumes:
       - sqlserverdata:/var/opt/mssql
 
+  backend:
+    build:
+      context: ./SalesAssessment.Api
+      dockerfile: ./SalesAssessment.Api/Dockerfile
+    container_name: salesassessment-backend
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=SalesAssessmentDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
+    depends_on:
+      - sqlserver
+    ports:
+      - "5000:8080"
+
+  frontend:
+    build:
+      context: ./salesapp-frontend
+      dockerfile: Dockerfile
+    container_name: salesassessment-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
 volumes:
   sqlserverdata:
